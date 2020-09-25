@@ -1,5 +1,5 @@
 const { Game, Action } = require("../index");
-const { fp: _ } = require("lodash");
+const _ = require("lodash/fp");
 
 describe("Game moves", () => {
   const prepare = () => {
