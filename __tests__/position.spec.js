@@ -9,7 +9,7 @@ describe('Game position', () => {
     const x = 1, y = 1;
     const pos = Position.createPosition(x, y);
 
-    expect(Position.getX(pos)).toEq(x);
-    expect(Position.getY(pos)).toEq(y);
+    expect(Position.getX(pos)).toBe(x);
+    expect(Position.getY(pos)).toBe(y);
   });
 });

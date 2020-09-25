@@ -55,7 +55,7 @@ describe("Game moves", () => {
     });
   });
 
-  desctibe("Consumer logic", () => {
+  describe("Consumer logic", () => {
     const prepareWithNewLogic = () => {
       const logic = Action.createActionsLogic({
         consumer: ({ game, move }) => {
