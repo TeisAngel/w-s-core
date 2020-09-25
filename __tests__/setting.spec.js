@@ -16,7 +16,7 @@ describe('Game settings', () => {
         playersCount: 4
       });
 
-      expect(getPlayers(gameState)).toBeInstanceOf(Array);
+      expect(Game.getPlayers(gameState)).toBeInstanceOf(Array);
     });
 
     test('it creates game with exect number of players', () => {
@@ -24,7 +24,7 @@ describe('Game settings', () => {
         playersCount: 4
       });
 
-      expect(getPlayers(gameState).length).toBe(4);
+      expect(Game.getPlayers(gameState).length).toBe(4);
     });
   });
 });
