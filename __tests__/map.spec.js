@@ -1,4 +1,6 @@
 const { Map, Position } = require('../index');
+const { createMap, getOffset } = require('../lib/map');
+const { getX, getY, createPosition } = require('../lib/position');
 
 describe('Game map', () => {
   describe('Map creation', () => {
@@ -38,5 +40,18 @@ describe('Game map', () => {
       const pos = Position.createPosition(-1, 1);
       perform(pos);
     });
+  });
+
+  describe('#getOffset', () => {
+    it('returns center offset', () => {
+      expect(getOffset(createMap({}))).toBeDefined();
+    });
+
+    it('returns (0,0) for a new game', () => {
+      const offset = getOffset(createMap({}));
+      const pos = createPosition(0, 0);
+      expect(getX(offset)).toBe(getX(pos));
+      expect(getY(offset)).toBe(getY(pos));
+    })
   });
 });
