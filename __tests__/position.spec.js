@@ -35,12 +35,23 @@ describe('Game position', () => {
     });
   });
 
+  describe('#multiply', () => {
+    it('returns multiplied position', () => {
+      const pos = Position.createPosition(32312, 3432523);
+      const val = 534;
+      const res = Position.multiply(pos)(val);
+
+      expect(Position.getX(res)).toBe(Position.getX(pos) * val);
+      expect(Position.getY(res)).toBe(Position.getY(pos) * val);
+    });
+  });
+
   describe('#asArray', () => {
     it('returns position as array', () => {
       const pos = Position.createPosition(-12, 923);
       expect(Position.asArray(pos)).toStrictEqual([
-        Position.getX(pos),
         Position.getY(pos),
+        Position.getX(pos),
       ]);
     });
   });
