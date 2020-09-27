@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "prettier": {
+    "singleQuote": true,
+    "arrowParens": "avoid",
+    "bracketSpacing": true,
+    "trailingComma": "all"
+  },
   "scripts": {
     "test": "jest --watchAll"
   },
