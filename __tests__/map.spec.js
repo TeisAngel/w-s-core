@@ -1,5 +1,5 @@
 const { Map, Position } = require('../index');
-const { createMap, getOffset } = require('../lib/map');
+const { createMap, getOffset, getMapAsArray } = require('../lib/map');
 const { getX, getY, createPosition } = require('../lib/position');
 
 describe('Game map', () => {
@@ -9,36 +9,55 @@ describe('Game map', () => {
     });
   });
 
-  describe('Reading map with #read and updating with #update', () => {
-    const perform = (pos, value = 'Some value') => {
+  describe('#read', () => {
+    const perform = (x, y, value = 'Some value') => () => {
+      const pos = createPosition(x, y);
       const map = Map.update(Map.createMap())(pos)(value);
-
       expect(Map.read(map)(pos)).toBe(value);
     };
 
-    it('reads value at position', () => {
-      const pos = Position.createPosition(0, 0);
-      perform(pos);
-    });
+    it('reads value at position', perform(0, 0));
+    it('reads value at negative pos', perform(-1, -1));
+    it('reads value at positive pos', perform(1, 1));
+    it('reads value at positive X and negative Y pos', perform(1, -1));
+    it('reads value at negative X and positive Y pos', perform(-1, 1));
+  });
 
-    it('reads value at negative pos', () => {
-      const pos = Position.createPosition(-1, -1);
-      perform(pos);
-    });
+  describe('#update', () => {
+    const perform = (x, y, value = 'Some value') => () => {
+      const pos = createPosition(x, y);
+      const map = Map.update(Map.createMap())(pos)(value);
+      const arr = getMapAsArray(map);
+      expect(arr[0>y?0:y][0>x?0:x]).toBe(value);
+    };
 
-    it('reads value at positive pos', () => {
-      const pos = Position.createPosition(1, 1);
-      perform(pos);
-    });
+    it('updates value at position', perform(0, 0));
+    it('updates value at negative pos', perform(-1, -1));
+    it('updates value at positive pos', perform(1, 1));
+    it('updates value at positive X and negative Y pos', perform(1, -1));
+    it('updates value at negative X and positive Y pos', perform(-1, 1));
 
-    it('reads value at positive X and negative Y pos', () => {
-      const pos = Position.createPosition(1, -1);
-      perform(pos);
-    });
+    describe('workinh with negative coords', () => {
+      const perform = (x = -1, y = -1, value = 'Some value') => {
+        const pos = createPosition(x, y);
+        const map = Map.update(Map.createMap())(pos)(value);
+        const arr = getMapAsArray(map);
+        const offset = getOffset(map);
 
-    it('reads value at negative X and positive Y pos', () => {
-      const pos = Position.createPosition(-1, 1);
-      perform(pos);
+        return { arr, offset };
+      };
+
+      it('updates offset', () => {
+        const { offset } = perform();
+
+        expect(getX(offset)).toBe(1);
+        expect(getY(offset)).toBe(1);
+      });
+
+      it('returns array without negative coords', () => {
+        const { arr } = perform();
+        expect(Array.from(arr.keys()).length).toBe(1)
+      });
     });
   });
 
@@ -52,6 +71,6 @@ describe('Game map', () => {
       const pos = createPosition(0, 0);
       expect(getX(offset)).toBe(getX(pos));
       expect(getY(offset)).toBe(getY(pos));
-    })
+    });
   });
 });
